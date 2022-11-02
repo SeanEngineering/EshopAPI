@@ -1,0 +1,52 @@
+@use '../../styles/mixins';
+
+.scrollWindow{
+    scroll-snap-type: y mandatory;
+    height: 300px;
+    overflow-y: auto;
+    &::-webkit-scrollbar {
+        display: none;
+      }
+}
+
+.container{
+    @include mixins.flexing(row, space-around, center);
+    scroll-snap-align: start;
+    width: 99vw;
+    height: 300px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    // background-color: red;
+    
+    &__image{
+        @include mixins.flexing(row, center, center);
+        width: 30%;
+        height:100%;
+        img{
+            height: 100%;
+            width: auto;
+            border-radius: 10px;
+        }
+    }
+    &__product{
+        @include mixins.flexing(column, space-around, center);
+        width: 60%;
+        height: 100%;
+        h1{
+            padding: 0px;
+            margin: 0px;
+        }
+        h2{
+            padding: 0px;
+            margin: 0px; 
+        }
+        h3{
+            padding: 0px;
+            margin: 0px; 
+        }
+        h5{
+            padding: 0px;
+            margin: 0px; 
+        }
+    }
+}
