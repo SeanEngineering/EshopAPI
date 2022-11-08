@@ -1,8 +1,0 @@
-@use '../../styles/mixins';
-
-.container{
-    @include mixins.flexing(column, center, center);
-    h1{
-        margin-left: 30px;
-    }
-}
