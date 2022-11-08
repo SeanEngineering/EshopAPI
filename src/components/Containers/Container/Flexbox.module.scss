@@ -1,0 +1,7 @@
+@use '../../../styles/mixins';
+
+.container {
+    @include mixins.flexing(row, space-around, center);
+    width: 99vw;
+    flex-wrap: wrap;
+}

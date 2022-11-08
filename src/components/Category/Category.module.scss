@@ -1,0 +1,16 @@
+@use '../../styles/mixins';
+
+.container{
+    @include mixins.flexing(column, center, center);
+    width: 99vw;
+    height: auto;
+    &__title{
+        text-shadow: 4px 4px black;
+        color: white;
+    }
+    &__flex{
+        @include mixins.flexing(row, center, center);
+        flex-wrap: wrap;
+    }
+
+}

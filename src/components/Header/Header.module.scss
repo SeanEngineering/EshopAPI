@@ -1,0 +1,32 @@
+@use '../../styles/mixins';
+
+@keyframes moving {
+    0% {
+        transform:translateX(0px);
+        transition: transform 0.6s cubic-bezier(0.83, 0, 0.17, 1)
+      };
+      
+      50% {
+        transform: translateX(1px);
+        transition: transform 0.6s cubic-bezier(0.83, 0, 0.17, 1)
+      };
+}
+
+.container{
+    @include mixins.flexing(column, center, center);
+    &__title{
+        margin-left: 30px;
+        transition: 0.5s;
+        animation-play-state:paused;
+        &__position{
+            text-shadow: 4px 4px black;
+            color: white;
+            transition: 0.5s;
+            animation-name: moving;
+                    animation-duration: 0.6s;
+                    animation-iteration-count: infinite;
+                    animation-timing-function: ease-in-out;
+                    animation-play-state:running;
+        }
+    }
+}
