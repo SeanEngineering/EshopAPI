@@ -58,7 +58,7 @@ export default function Nav({yPos}) {
       if (value == ''){
         navigate('/');
       } else{
-        navigate(`/search/${value.split(' ').join('+')}`);
+        navigate(`/Eshop/search/${value.split(' ').join('+')}`);
       }
       e.target.value = "";
       setLoad(false)
@@ -69,9 +69,9 @@ export default function Nav({yPos}) {
   const changeNavigate = (e) => {
     e.preventDefault();
     if  (e.target.innerText == "Favourites") {
-      navigate('/favourites');
+      navigate('/EshopAPI/favourites');
     } else {
-      navigate(`/category/${e.target.innerText}`);
+      navigate(`/EshopAPI/category/${e.target.innerText}`);
     }
    
   }
@@ -86,11 +86,11 @@ export default function Nav({yPos}) {
   
     <div className={[style.nav, navPos && style.nav__float].join(' ')}>
         <form className={style.nav__row}>
-            <NavLink to="/"><h2 className={style.nav__row__logo}>mrchnt//</h2></NavLink>
+            <NavLink to="/EshopAPI/"><h2 className={style.nav__row__logo}>mrchnt//</h2></NavLink>
             <div className={style.nav__row__search}><input type="text" placeholder='Search...' onKeyDown={handleKeyDown}/><img src={searchImg} alt="" /></div>
             <div className={style.nav__row__icons}>
-              <NavLink to="/cart" className={style.nav__row__icons__link}><div>Total ${price}</div><img src={cartImage} alt="" />{quant}</NavLink>
-              <NavLink to ="/"><img src={marketplace} alt="" /></NavLink>
+              <NavLink to="/EshopAPI/cart" className={style.nav__row__icons__link}><div>Total ${price}</div><img src={cartImage} alt="" />{quant}</NavLink>
+              <NavLink to ="/EshopAPI/"><img src={marketplace} alt="" /></NavLink>
               <a href="https://seanengineering.github.io/portfolio_showcase/index.html" target="_blank"><img src={contact} alt="" /></a>
               <img src={settings} alt="" />
               <img src={profile} alt="" />

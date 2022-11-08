@@ -13,7 +13,7 @@ const MainCard = ({id, name, price, description, category, image, manufacturer, 
     }
 
     return (
-        <NavLink to={`/product/${id}`}>
+        <NavLink to={`/EshopAPI/product/${id}`}>
         <div className={style.card}>
             <div className={style.card__image} >
                 <img src={image} alt="" />

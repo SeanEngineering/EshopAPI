@@ -26,7 +26,7 @@ const FeaturedProduct = () => {
 
     return (
         <div className={style.scrollWindow}>
-            <NavLink to={`/product/${featured.id}`}>
+            <NavLink to={`/EshopAPI/product/${featured.id}`}>
             <div className={style.container}>
                 <div className={style.container__image}>
                     <img src={featured.image} alt="" />
@@ -39,7 +39,7 @@ const FeaturedProduct = () => {
                 </div>
             </div>
             </NavLink>
-            <NavLink to={`/product/${featured2.id}`}>
+            <NavLink to={`/EshopAPI/product/${featured2.id}`}>
             <div className={style.container}>
                 <div className={style.container__image}>
                     <img src={featured2.image} alt="" />
@@ -52,7 +52,7 @@ const FeaturedProduct = () => {
                 </div>
             </div>
             </NavLink>
-            <NavLink to={`/product/${featured3.id}`}>
+            <NavLink to={`/EshopAPI/product/${featured3.id}`}>
             <div className={style.container}>
                 <div className={style.container__image}>
                     <img src={featured3.image} alt="" />

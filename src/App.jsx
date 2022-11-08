@@ -21,6 +21,8 @@ import Footer from './components/Footer/Footer';
 function App() {
   const [cart, setCart] = useState([]);
   const [y, setY] = useState();
+  const randOrder = new Date().getTime();
+  const [orderNumber,setOrderNumber] = useState(Math.floor(randOrder/1000000));
 
   useEffect(() => {
 
@@ -52,7 +54,7 @@ function App() {
       <Nav yPos={y}/>
       <div style={{height: "120px"}}></div>
       <Routes>
-        <Route path='/' element={<div>
+        <Route path='/EshopAPI/' element={<div>
         <Header yPos={y} ylimit={60} title={'Featured Products'}>
           <FeaturedProduct />
         </Header>
@@ -63,11 +65,11 @@ function App() {
           </Header>
           <br />
         </div>}/>
-      <Route path='/product/:id' element={<ProductPage />} />
-      <Route path='/cart' element={<Cart />} />
-      <Route path='/search/:terms' element={<ProductSearch />}/>;
-      <Route path='/favourites' element={<Flexbox><Favourites /></Flexbox>}/>;
-      <Route path='/category/:category' element={<>
+      <Route path='/EshopAPI/product/:id' element={<ProductPage />} />
+      <Route path='/EshopAPI/cart' element={<Cart uuid={orderNumber}/>} />
+      <Route path='/EshopAPI/search/:terms' element={<ProductSearch />}/>;
+      <Route path='/EshopAPI/favourites' element={<Flexbox><Favourites /></Flexbox>}/>;
+      <Route path='/EshopAPI/category/:category' element={<>
       <Flexbox>
         <Category />
       </Flexbox></>}/>;

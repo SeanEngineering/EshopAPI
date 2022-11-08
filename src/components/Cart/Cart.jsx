@@ -4,7 +4,7 @@ import { getCart, cartContext, addToCart, deleteCartProductById} from '../../ser
 import { NavLink } from 'react-router-dom';
 import loadingImage from '../../media/images/loading2.gif'
 
-const Cart = () => {
+const Cart = ({uuid}) => {
     const [cart, setCart] = useContext(cartContext);
     const [image, setImage] = useState([]);
     const [price, setPrice] = useState([]);
@@ -16,6 +16,7 @@ const Cart = () => {
     const [quant, setQuant] = useState(0);
     const [shipping, setShipping] = useState("Free");
     const [items, setItems] = useState(false);
+    const [grandTotal, setGrandTotal] = useState(total);
 
     const updateValue = (e) => {
         e.preventDefault();
@@ -69,12 +70,15 @@ const Cart = () => {
                 console.log(total);
                 setShipping("$30")
                 setItems(true);
+                setGrandTotal(total+30);
             } else if (total > 300){
                 setShipping("Free");
                 setItems(true);
+                setGrandTotal(total);
             }
             else if (total == 0) {
                 setItems(false);
+                setGrandTotal(total);
             }
             console.log(items);
     }, [total]);
@@ -106,28 +110,77 @@ const Cart = () => {
             </div>
             <main className={style.container__main}>
                 {items && <>
-                <div>
+                <div className={style.container__main__price}>
                     <h2>Order Summary</h2>
-                    <h4>Subtotal ({quant}): ${total} AUD</h4>
-                    <h4>Estimated Shipping: {shipping}</h4>
+                    <h4>Order no. : <span>#{uuid}</span></h4>
+                    <h4>Subtotal ({quant}): <span>${total} AUD</span></h4>
+                    <h4>Estimated Shipping: <span>{shipping}</span></h4>
+                    <h4>Incl. Shipping: <span>${grandTotal} AUD</span></h4>
                 </div>
-                <form action="">
-                    <label htmlFor="name">Name: </label>
-                    <input type="name" />
-                    <label htmlFor="Mobile">Mobile: </label>
-                    <input type="text" />
-                    <label htmlFor="Email">Email: </label>
-                    <input type="text" />
-                    <label htmlFor="Address1">Address Line 1: </label>
-                    <input type="text" />
-                    <label htmlFor="Address2">Address Line 2: </label>
-                    <input type="text" />
-                    <label htmlFor="postCode">Post Code: </label>
-                    <input type="text" />
+                <form className={style.container__main__form} action="">
+                    <section className={style.container__main__form__user}>
+                        <h2>Contact Details</h2>
+                        <div>
+                            <label htmlFor="name">Full name</label>
+                            <input type="name" />
+                        </div>
+                        <div>
+                            <label htmlFor="Mobile">Mobile</label>
+                            <input type="text" />
+                        </div>
+                        <div>
+                            <label htmlFor="Email">Email</label>
+                            <input type="text" />
+                        </div>
+                    </section>
+                    <section className={style.container__main__form__user}>
+                        <h2>Address</h2>
+                        <div>
+                            <label htmlFor="company">Company</label>
+                            <input type="text" />
+                        </div>
+                        <div>
+                            <label htmlFor="Address1">Address Line 1 </label>
+                            <input type="text" />
+                        </div>
+                        <div>
+                            <label htmlFor="Address2">Address Line 2 </label>
+                            <input type="text" />
+                        </div>
+                        <div>
+                            <label htmlFor="city">City </label>
+                            <input type="text" />
+                        </div>
+                        <div className={style.container__main__form__user__special}>
+                            <label htmlFor="postCode">Post Code</label>
+                            <input className={style.container__main__form__user__special__input} type="text" />
+                            <label htmlFor="state">State</label>
+                                <select name="state" id="state">
+                                        <option value="nsw">NSW</option>
+                                        <option value="vic">VIC</option>
+                                        <option value="qld">QLD</option>
+                                        <option value="wa">TAS</option>
+                                        <option value="wa">WA</option>
+                                        <option value="sa">SA</option>
+                                        <option value="act">ACT</option>
+                                        <option value="nt">NT</option>
+                                        <option value="jbt">JBT</option>
+                                    </select>
+                        </div>
+                    </section>
+                    <section className={style.container__main__form__user}>
+                        <h2>Additional Info</h2>
+                        <div>
+                            <label htmlFor="notes">Notes</label>
+                            <input type="text" />
+                        </div>
+                        <div>
+                            <label htmlFor="notes">Coupon Code</label>
+                            <input type="text" />
+                        </div>
+                    </section>
                 </form>
-
-                <br />
-                <button>Checkout</button>
+                <button>Continue to Payment</button>
                 </>}
                 {!items && <><h2>Oh no...</h2><h5>Your Cart is Empty</h5></>}
             </main>
