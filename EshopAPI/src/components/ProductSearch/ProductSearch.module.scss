@@ -1,0 +1,19 @@
+@use '../../styles/mixins';
+
+.container {
+    @include mixins.flexing(column, center, center);
+    height: 70vh;
+    width: 100%;
+
+}
+
+.search {
+    @include mixins.flexing(column, start, center);
+    height: auto;
+    
+    &__flex{
+        @include mixins.flexing(row, space-around, center);
+        flex-wrap: wrap;
+
+    }
+}

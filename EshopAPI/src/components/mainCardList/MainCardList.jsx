@@ -18,7 +18,7 @@ const MainCardList = () => {
     },[])
 
     return (
-        products.map(item => <MainCard key={item.id} name={item.name} price={item.price} description={item.description} category={item.category} image={item.image} manufacturer={item.manufacturer} favourite={item.favourite}/>)
+        products.map(item => <MainCard key={item.id} id={item.id} name={item.name} price={item.price} description={item.description} category={item.category} image={item.image} manufacturer={item.manufacturer} favourite={item.favourite}/>)
     );
 };
 
