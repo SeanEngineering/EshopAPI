@@ -2,7 +2,7 @@
 
 .container {
     @include mixins.flexing(column, start, center);
-    width: 99vw;
+    width: 100vw;
     min-height: 100vh;
     overflow-y: auto;
 }

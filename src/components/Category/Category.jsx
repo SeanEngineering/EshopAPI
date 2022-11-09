@@ -6,7 +6,7 @@ import MainCard from '../mainCard/MainCard';
 import style from './Category.module.scss';
 import Flexbox from '../Containers/Container/Flexbox';
 
-const Category = () => {
+const Category = ({setCateg}) => {
     const {category} = useParams();
     const [catItems, setCatItems] = useState([]);
 
@@ -14,6 +14,7 @@ const Category = () => {
         ( async () => {
             const items = await getProductByCategory(category);
             setCatItems(items);
+            setCateg(category);
         })();
 
     },[category]);

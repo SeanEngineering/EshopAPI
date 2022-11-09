@@ -17,11 +17,14 @@ import Stars from './components/Stars/Stars';
 import Category from './components/Category/Category';
 import Favourites from './components/Favourites/Favourites';
 import Footer from './components/Footer/Footer';
+import Welcome from './components/Welcome/Welcome';
+import PageSpread from './components/Containers/PageSpread/PageSpread';
 
 function App() {
   const [cart, setCart] = useState([]);
   const [y, setY] = useState();
   const randOrder = new Date().getTime();
+  const [categ, setCateg] = useState();
   const [orderNumber,setOrderNumber] = useState(Math.floor(randOrder/1000000));
 
   useEffect(() => {
@@ -49,12 +52,15 @@ function App() {
 
   return (
     <cartContext.Provider value={[cart, setCart]}>
+    <PageSpread>
     <PageContainer>
     <BrowserRouter>
-      <Nav yPos={y}/>
+    {/* <Welcome yPos={y}/> */}
+      <Nav yPos={y} categ={categ} setCateg={setCateg}/>
       <div style={{height: "120px"}}></div>
       <Routes>
         <Route path='/EshopAPI/' element={<div>
+          
         <Header yPos={y} ylimit={60} title={'Featured Products'}>
           <FeaturedProduct />
         </Header>
@@ -71,13 +77,15 @@ function App() {
       <Route path='/EshopAPI/favourites' element={<Flexbox><Favourites /></Flexbox>}/>;
       <Route path='/EshopAPI/category/:category' element={<>
       <Flexbox>
-        <Category />
+        <Category setCateg={setCateg}/>
       </Flexbox></>}/>;
       </Routes>
       {/* <NewProduct /> */}
       {/* <Footer /> */}
     </BrowserRouter>
     </PageContainer>
+    <Footer />
+    </PageSpread>
     </cartContext.Provider>
   );
 }

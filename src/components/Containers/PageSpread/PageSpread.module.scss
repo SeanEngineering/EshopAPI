@@ -1,0 +1,7 @@
+@use '../../../styles/mixins';
+.container{
+    @include mixins.flexing(column, space-between, center);
+    min-height: 100vh;
+    height: auto;
+    width: auto;
+}

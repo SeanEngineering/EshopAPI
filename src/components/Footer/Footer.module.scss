@@ -1,5 +1,10 @@
+@use '../../styles/mixins';
+
 .footer{
-    height: 300px;
+    @include mixins.flexing(row, center, center);
+    height: auto;
+    padding-top: 10px;
+    padding-bottom: 10px;
     width: 100vw;
     background-color: #585123;
 }

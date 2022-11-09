@@ -7,20 +7,36 @@ import profile from '../../media/icons/profile.svg';
 import settings from '../../media/icons/settings.svg';
 import contact from '../../media/icons/contact.svg';
 import sale from '../../media/icons/sale.svg';
-import { Navigate, NavLink, useNavigate } from 'react-router-dom';
+import { Navigate, NavLink, useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useContext} from 'react';
 import { cartContext, getCart } from '../../service/products';
 import styled, { keyframes } from 'styled-components';
 
-export default function Nav({yPos}) {
-
+export default function Nav({yPos, categ, setCateg}) {
   const [cart, setCart] = useContext(cartContext);
   const [quant, setQuant] = useState(0);
   const [price, setPrice] = useState(0);
   const [load, setLoad] = useState(false);
   const [navPos, setNavPos] = useState(false);
+  const [page, setPage] = useState(false);
+  const categories = document.getElementsByClassName('cat');
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log(categ);
+      for (let cats of categories){
+        if (cats.innerText == categ){
+          cats.style.backgroundColor="gray";
+          cats.style.color="white";
+        } else {
+          cats.style.backgroundColor="white";
+          cats.style.color="black";
+        }
+      }
+      setCateg(null);
+      
+  }, [categ]);
 
   useEffect(() => {
 
@@ -56,9 +72,9 @@ export default function Nav({yPos}) {
         setLoad(true);
       let value = e.target.value;
       if (value == ''){
-        navigate('/');
+        navigate('/EshopAPI/');
       } else{
-        navigate(`/Eshop/search/${value.split(' ').join('+')}`);
+        navigate(`/EshopAPI/search/${value.split(' ').join('+')}`);
       }
       e.target.value = "";
       setLoad(false)
@@ -73,7 +89,16 @@ export default function Nav({yPos}) {
     } else {
       navigate(`/EshopAPI/category/${e.target.innerText}`);
     }
+    setPage(!page);
    
+  }
+  const check = (e) => {
+    console.log
+    if (e.target.innerText == category){
+      return true;
+    } else {
+      return false;
+    }
   }
 
 
@@ -89,25 +114,24 @@ export default function Nav({yPos}) {
             <NavLink to="/EshopAPI/"><h2 className={style.nav__row__logo}>mrchnt//</h2></NavLink>
             <div className={style.nav__row__search}><input type="text" placeholder='Search...' onKeyDown={handleKeyDown}/><img src={searchImg} alt="" /></div>
             <div className={style.nav__row__icons}>
-              <NavLink to="/EshopAPI/cart" className={style.nav__row__icons__link}><div>Total ${price}</div><img src={cartImage} alt="" />{quant}</NavLink>
+              <NavLink to="/EshopAPI/cart" className={style.nav__row__icons__link}><div>${price}</div><img src={cartImage} alt="" />{quant == 0 && <div className={style.blank}></div>}{quant > 0 && <span className={style.quantity}>{quant}</span>}</NavLink>
               <NavLink to ="/EshopAPI/"><img src={marketplace} alt="" /></NavLink>
               <a href="https://seanengineering.github.io/portfolio_showcase/index.html" target="_blank"><img src={contact} alt="" /></a>
-              <img src={settings} alt="" />
               <img src={profile} alt="" />
             </div>
             
         </form>
         <div className={style.nav__row}>
             <ul>
-                <li onClick={(e) => changeNavigate(e)}>Lounge</li>
-                <li  onClick={(e) => changeNavigate(e)}>Living</li>
-                <li  onClick={(e) => changeNavigate(e)}>Decor</li>
-                <li  onClick={(e) => changeNavigate(e)}>Kitchen</li>
-                <li  onClick={(e) => changeNavigate(e)}>Office</li>
-                <li  onClick={(e) => changeNavigate(e)}>Misc</li>
-                <li  onClick={(e) => changeNavigate(e)}>Vehicles</li>
-                <li  onClick={(e) => changeNavigate(e)}>Dining</li>
-                <li  onClick={(e) => changeNavigate(e)}>Favourites</li>
+                <li className='cat' onClick={(e) => changeNavigate(e)}>Living</li>
+                <li className='cat' onClick={(e) => changeNavigate(e)}>Lounge</li>
+                <li className='cat' onClick={(e) => changeNavigate(e)}>Decor</li>
+                <li className='cat' onClick={(e) => changeNavigate(e)}>Kitchen</li>
+                <li className='cat' onClick={(e) => changeNavigate(e)}>Office</li>
+                <li className='cat' onClick={(e) => changeNavigate(e)}>Misc</li>
+                <li className='cat' onClick={(e) => changeNavigate(e)}>Vehicles</li>
+                <li className='cat' onClick={(e) => changeNavigate(e)}>Dining</li>
+                <li className='cat' onClick={(e) => changeNavigate(e)}>Favourites</li>
             </ul>
         </div>
       
@@ -138,3 +162,4 @@ animation-name: ${textfade};
 animation-duration: 1s;
 animation-timing-function: ease-in-out;
 `;
+
