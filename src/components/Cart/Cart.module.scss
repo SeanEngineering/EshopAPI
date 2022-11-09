@@ -13,6 +13,11 @@
     &__scroll{
         @include mixins.flexing(column, space-around, start);
         width: 80%;
+        @media only screen and (max-width: 1500px){
+            @include mixins.flexing(column, space-around, center);
+            width: 100%;
+            gap: 20px;
+        }
         height: 100%;
         &__titles{
             @include mixins.flexing(row, space-around, center);
@@ -111,6 +116,7 @@
         @include mixins.flexing(column, space-around, center);
         @media only screen and (max-width: 1500px){
             width: 100%;
+            margin-left: 0px;
         }
         border-radius: 20px;
         margin-left: 30px;

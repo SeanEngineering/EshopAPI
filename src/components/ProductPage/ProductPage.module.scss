@@ -4,12 +4,13 @@
     @include mixins.flexing(row, space-around, center);
     width: 80vw;
     margin-top: 20px;
+    :last-child{
+        margin-bottom: 30px;
+    }
     @media only screen and (max-width: 1400px){
         @include mixins.flexing(column, space-around, center);
         gap: 20px;
-        :last-child{
-            margin-bottom: 20px;
-        }
+       
     }
     &__preview{
         @include mixins.flexing(column, center, center);
