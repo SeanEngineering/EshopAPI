@@ -10,7 +10,7 @@ Eshop API demonstration that integrates with remote Firestore database on the Fi
 
 ### Product Page
 - ☑ Quantity
-- ☐ Variants (sizes shown on product page)
+- ☑ Variants (sizes)
 - ☑ Price per unit
 - ☑ Name
 - ☑ Image url
