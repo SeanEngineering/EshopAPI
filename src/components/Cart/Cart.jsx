@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import style from './Cart.module.scss';
-import { getCart, cartContext, addToCart, deleteCartProductById} from '../../service/products';
+import { getCart, cartContext, addToCart, deleteCartProductById, getCartProductById, getProductById} from '../../service/products';
 import { NavLink } from 'react-router-dom';
 import loadingImage from '../../media/images/loading2.gif'
 
@@ -18,17 +18,20 @@ const Cart = ({uuid}) => {
     const [items, setItems] = useState(false);
     const [grandTotal, setGrandTotal] = useState(total);
 
-    const updateValue = (e) => {
-        e.preventDefault();
-        console.log(e.target.value);
-    }
-
     const cartChange = async (id, qty, checkQuantity) => {
         setLoading(true);
-        if ((checkQuantity > 0 && qty == -1) || qty == 1) {
+        if (checkQuantity > 0 && qty == -1) {
             await addToCart(id, qty);
 
-        } else {
+        } else if (qty==1){
+            const inCart = await getCartProductById(id);
+            const inShop = await getProductById(id);
+            console.log(inShop.quantity);
+            console.log(inCart.quantity);
+            if ((inShop.quantity - inCart.quantity) > 0){
+                await addToCart(id, qty);
+            }
+        }else {
             await deleteCartProductById(id);
         }
         setCart(await getCart());

@@ -5,7 +5,7 @@ import fav from '../../media/images/favo.svg';
 import nfav from '../../media/images/nfav.svg';
 import styled, { keyframes } from 'styled-components';
 
-const MainCard = ({id, name, price, description, category, image, manufacturer, favourite}) => {
+const MainCard = ({id, name, price, description, category, image, manufacturer, favourite, quantity}) => {
 
     let isFavourite = nfav;
     if (favourite) {
@@ -20,7 +20,8 @@ const MainCard = ({id, name, price, description, category, image, manufacturer, 
             </div>
             
             <h5>{name}</h5>
-            <div className={style.card__price}><span>${price} AUD </span><img src={isFavourite} alt="" /></div>
+            
+            <div className={style.card__price}><span>${price} AUD </span>{quantity <= 0 && <div>Out of Stock</div>}<img src={isFavourite} alt="" /></div>
         </div>
         </NavLink>
     );

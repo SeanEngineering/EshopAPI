@@ -1,7 +1,7 @@
 import React from 'react';
 import style from './ProductPage.module.scss';
 import { useState,useEffect,useContext } from 'react';
-import { getProductById, addToCart, getCart, cartContext, changeToFavourite } from '../../service/products';
+import { getProductById, addToCart, getCart, cartContext, changeToFavourite, getCartProductById } from '../../service/products';
 import { useParams } from 'react-router-dom';
 import fav from '../../media/images/favo.svg';
 import nfav from '../../media/images/nfav.svg';
@@ -10,11 +10,14 @@ import nfav from '../../media/images/nfav.svg';
 const ProductPage = () => {
     const [quantity, setQuantity] = useState(0);
     const [product, setProduct] = useState([]);
+    const [cartProduct, setCartProduct] = useState([]);
     const [add,changeAdd] = useState("ADD TO CART")
     const {id} = useParams();
     const [cart, setCart] = useContext(cartContext);
     const [favourite, setFavourite] = useState(nfav);
     const [favCheck, setFavCheck] = useState(false);
+    const [stock, setStock] = useState(true);
+    
 
     useEffect(() => {
         (async () => {
@@ -36,9 +39,29 @@ const ProductPage = () => {
             }
     },[product]);
 
+    useEffect(() => {
+        (async () =>{
+            const getCartProd = await getCartProductById(id);
+            setCartProduct(getCartProd);
+            console.log(cartProduct.quantity);
+            console.log(product.quantity);
+            
+        })();
+    },[quantity])
+
+    useEffect(()=>{
+        if (cartProduct && cartProduct.quantity >= product.quantity){
+            setStock(false);
+        }
+    }, [cartProduct]);
+
     const addProduct = (e) => {
         e.preventDefault();
-        setQuantity(quantity + 1);
+        console.log(product.quantity);
+        if (quantity < (product.quantity - (cartProduct? cartProduct.quantity: 0))){
+            setQuantity(quantity + 1);
+        } 
+       
     }
 
     const removeProduct = (e) => {
@@ -78,14 +101,10 @@ const ProductPage = () => {
                 <img src={product.image} alt="" />
             </div>
             <form onSubmit={cartUpdate} className={style.product__description}>
-                <div className={style.product__description__option}>
-                    <h5>Option A</h5> 
-                    <h5>Option B</h5>
-                </div>
                 <h1>{product.name}</h1>
                 <h3 className={style.product__description__option__price}><img onClick={async () => favUpdate()} src={favourite} alt="" /> ${product.price} AUD</h3>
                 <p>{product.description}</p>
-                <section className={style.product__description__sizeQty}>
+                {stock && <section className={style.product__description__sizeQty}>
                     <div className={style.product__description__sizeQty__size}>
                         <label htmlFor="size">Size</label>
                         <select className={style.product__description__sizeQty__size__dropdown} name="size" id="size">
@@ -102,10 +121,10 @@ const ProductPage = () => {
                             <button onClick={addProduct}>+</button>
                         </div>
                     </div>
-                </section>
+                </section>}
+                {!stock && <section className={style.product__description__sizeQty__size}><h2>Out of Stock</h2></section>}
                 <button className={style.product__description__button} type='submit'>{add}</button>
             </form>
-            
         </div>
     );
 };

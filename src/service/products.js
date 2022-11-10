@@ -89,6 +89,15 @@ export const getProductById = async (id) => {
   return { id: querySnapshot.id, ...querySnapshot.data() };
 };
 
+export const getCartProductById = async (id) => {
+  const docRef = doc(db, 'cart', id);
+  const querySnapshot = await getDoc(docRef);
+  if (!querySnapshot.exists()) {
+    return;
+  }
+  return { id: querySnapshot.id, ...querySnapshot.data() };
+};
+
 export const getProductBySearchTerm = async (terms) => {
   const searchTerms = terms.toLowerCase().split('+');
   console.log(searchTerms);
