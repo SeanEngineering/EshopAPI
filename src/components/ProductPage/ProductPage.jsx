@@ -1,13 +1,13 @@
 import React from 'react';
 import style from './ProductPage.module.scss';
 import { useState,useEffect,useContext } from 'react';
-import { getProductById, addToCart, getCart, cartContext, changeToFavourite, getCartProductById } from '../../service/products';
+import { getProductById, addToCart, getCart, cartContext, changeToFavourite, getCartProductById, topFunction } from '../../service/products';
 import { useParams } from 'react-router-dom';
 import fav from '../../media/images/favo.svg';
 import nfav from '../../media/images/nfav.svg';
 
 
-const ProductPage = () => {
+const ProductPage = ({qtyChange, setQtyChange}) => {
     const [quantity, setQuantity] = useState(0);
     const [product, setProduct] = useState([]);
     const [cartProduct, setCartProduct] = useState([]);
@@ -18,6 +18,9 @@ const ProductPage = () => {
     const [favCheck, setFavCheck] = useState(false);
     const [stock, setStock] = useState(true);
     
+    useEffect(() => {
+        topFunction();
+    },[])
 
     useEffect(() => {
         (async () => {
@@ -43,8 +46,6 @@ const ProductPage = () => {
         (async () =>{
             const getCartProd = await getCartProductById(id);
             setCartProduct(getCartProd);
-            console.log(cartProduct.quantity);
-            console.log(product.quantity);
             
         })();
     },[quantity])
@@ -57,7 +58,6 @@ const ProductPage = () => {
 
     const addProduct = (e) => {
         e.preventDefault();
-        console.log(product.quantity);
         if (quantity < (product.quantity - (cartProduct? cartProduct.quantity: 0))){
             setQuantity(quantity + 1);
         } 
@@ -80,6 +80,7 @@ const ProductPage = () => {
             changeAdd("ADDED TO CART!");
             setQuantity(0);
             await setCart(getCart());
+            setQtyChange(!qtyChange);
         }
     }
     
@@ -123,7 +124,7 @@ const ProductPage = () => {
                     </div>
                 </section>}
                 {!stock && <section className={style.product__description__sizeQty__size}><h2>Out of Stock</h2></section>}
-                <button className={style.product__description__button} type='submit'>{add}</button>
+                {stock && <button className={style.product__description__button} type='submit'>{add}</button>}
             </form>
         </div>
     );

@@ -24,7 +24,6 @@ export default function Nav({yPos, categ, setCateg}) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(categ);
       for (let cats of categories){
         if (cats.innerText == categ){
           cats.style.backgroundColor="gray";

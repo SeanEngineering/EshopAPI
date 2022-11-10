@@ -10,6 +10,11 @@
     @include mixins.flexing(column, start, center);
     height: auto;
     width: 70%;
+    h1{
+        text-shadow: 4px 4px black;
+        color: white;
+    }
+     
     &__flex{
         @include mixins.flexing(row, space-around, center);
         flex-wrap: wrap;

@@ -22,12 +22,14 @@ const MainCardList = () => {
     return (
         products.map(item => {
             let quant = item.quantity;
-            for (let items of cart){
-                if (item.id == items.id){
-                    quant = item.quantity - items.quantity;
+            if (cart){
+                for (let items of cart){
+                    if (item.id == items.id){
+                        quant = item.quantity - items.quantity;
+                    }
                 }
             }
-
+            
         return <MainCard key={item.id} id={item.id} name={item.name} price={item.price} description={item.description} category={item.category} image={item.image} manufacturer={item.manufacturer} favourite={item.favourite} quantity={quant}/>
         })
     );

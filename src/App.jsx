@@ -26,6 +26,7 @@ function App() {
   const randOrder = new Date().getTime();
   const [categ, setCateg] = useState();
   const [orderNumber,setOrderNumber] = useState(Math.floor(randOrder/1000000));
+  const [quantityChange, setQuantityChange] = useState(false);
 
   useEffect(() => {
 
@@ -34,13 +35,12 @@ function App() {
       setCart(thisCart);
     })();
 
-  },[]);
+  },[quantityChange]);
 
   useEffect(() => {
     const handleScroll = event => {
       const pos = window.scrollY;
       setY(pos);
-      console.log(y);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -71,7 +71,7 @@ function App() {
           </Header>
           <br />
         </div>}/>
-      <Route path='/EshopAPI/product/:id' element={<ProductPage />} />
+      <Route path='/EshopAPI/product/:id' element={<ProductPage qtyChange={quantityChange} setQtyChange={setQuantityChange}/>} />
       <Route path='/EshopAPI/cart' element={<Cart uuid={orderNumber}/>} />
       <Route path='/EshopAPI/search/:terms' element={<ProductSearch />}/>;
       <Route path='/EshopAPI/favourites' element={<Flexbox><Favourites /></Flexbox>}/>;

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import style from './Cart.module.scss';
-import { getCart, cartContext, addToCart, deleteCartProductById, getCartProductById, getProductById} from '../../service/products';
+import { getCart, cartContext, addToCart, deleteCartProductById, getCartProductById, getProductById, topFunction} from '../../service/products';
 import { NavLink } from 'react-router-dom';
 import loadingImage from '../../media/images/loading2.gif'
 
@@ -85,6 +85,10 @@ const Cart = ({uuid}) => {
             }
             console.log(items);
     }, [total]);
+
+    useEffect(() => {
+        topFunction();
+    },[])
 
     return (
         <div className={style.container}>

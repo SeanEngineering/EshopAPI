@@ -1,6 +1,6 @@
 import React from 'react';
-import { useEffect, useState } from 'react';
-import { getProductByFavourites } from '../../service/products';
+import { useEffect, useState, useContext } from 'react';
+import { getProductByFavourites, topFunction,cartContext } from '../../service/products';
 import style from './Favourites.module.scss';
 import MainCard from '../mainCard/MainCard';
 import Flexbox from '../Containers/Container/Flexbox';
@@ -8,9 +8,12 @@ import Flexbox from '../Containers/Container/Flexbox';
 const Favourites = () => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [cart, setCart] = useContext(cartContext);
+
     const [ser,noSer] = useState(false);
 
     useEffect(() => {
+        topFunction();
         ( async () => {
             setLoading(true);
             const favourites = await getProductByFavourites();
@@ -29,7 +32,17 @@ const Favourites = () => {
             <div className={style.favourites}>
                 <h1>Favourites</h1>
                  <div className={style.favourites__flex}>
-                 {products.map(item => <MainCard key={item.id} id={item.id} name={item.name} price={item.price} description={item.description} category={item.category} image={item.image} manufacturer={item.manufacturer} favourite={item.favourite}/>)}
+                 {products.map(item => {
+                        let quant = item.quantity;
+                        if (cart){
+                            for (let items of cart){
+                                if (item.id == items.id){
+                                    quant = item.quantity - items.quantity;
+                                }
+                            }
+                        }
+                    return <MainCard key={item.id} id={item.id} name={item.name} price={item.price} description={item.description} category={item.category} image={item.image} manufacturer={item.manufacturer} favourite={item.favourite} quantity={quant}/>
+                    })}
                  </div>
             </div>}
            </>

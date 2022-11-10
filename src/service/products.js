@@ -137,6 +137,11 @@ export const getProductByCategory = async (category) => {
   return catProducts;
 };
 
+export const topFunction = () => {
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+};
+
 export const cartContext = createContext();
 
 export const searchContext = createContext();
