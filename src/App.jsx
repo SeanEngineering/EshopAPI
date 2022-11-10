@@ -27,6 +27,7 @@ function App() {
   const [categ, setCateg] = useState();
   const [orderNumber,setOrderNumber] = useState(Math.floor(randOrder/1000000));
   const [quantityChange, setQuantityChange] = useState(false);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
 
@@ -35,7 +36,7 @@ function App() {
       setCart(thisCart);
     })();
 
-  },[quantityChange]);
+  },[quantityChange,loaded]);
 
   useEffect(() => {
     const handleScroll = event => {
@@ -72,7 +73,7 @@ function App() {
           <br />
         </div>}/>
       <Route path='/EshopAPI/product/:id' element={<ProductPage qtyChange={quantityChange} setQtyChange={setQuantityChange}/>} />
-      <Route path='/EshopAPI/cart' element={<Cart uuid={orderNumber}/>} />
+      <Route path='/EshopAPI/cart' element={<Cart uuid={orderNumber} loaded={loaded} setLoaded={setLoaded}/>} />
       <Route path='/EshopAPI/search/:terms' element={<ProductSearch />}/>;
       <Route path='/EshopAPI/favourites' element={<Flexbox><Favourites /></Flexbox>}/>;
       <Route path='/EshopAPI/category/:category' element={<>

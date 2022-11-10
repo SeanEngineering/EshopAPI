@@ -4,7 +4,7 @@ import { getCart, cartContext, addToCart, deleteCartProductById, getCartProductB
 import { NavLink } from 'react-router-dom';
 import loadingImage from '../../media/images/loading2.gif'
 
-const Cart = ({uuid}) => {
+const Cart = ({uuid, loaded, setLoaded}) => {
     const [cart, setCart] = useContext(cartContext);
     const [image, setImage] = useState([]);
     const [price, setPrice] = useState([]);
@@ -17,6 +17,7 @@ const Cart = ({uuid}) => {
     const [shipping, setShipping] = useState("Free");
     const [items, setItems] = useState(false);
     const [grandTotal, setGrandTotal] = useState(total);
+    
 
     const cartChange = async (id, qty, checkQuantity) => {
         setLoading(true);
@@ -46,45 +47,69 @@ const Cart = ({uuid}) => {
     useEffect(() => {
         ( async () => {
             const altCart = await cart;
-            setTotal(await altCart.reduce(
+            console.log(altCart);
+            setTotal(altCart.reduce(
                 (a,b) => a + (b.price * b.quantity), 
-                0))
-            setImage(await altCart.map((item,index) => {
-                return <NavLink to={`/product/${item.id}`}><div key={index} className={style.container__column__name}><img src={item.image} alt="" />{item.name}</div></NavLink>
-            }));
-            setPrice(await altCart.map((item, index) => {
-                return <div key={index} className={style.container__column__name}>${item.price}</div>
-            }));
-            setQuantity(await altCart.map((item, index) => {
-                return <div key={index} className={style.container__column__name__qty}>{!loading && <><button onClick={()=>{cartChange(item.id, -1, item.quantity)}}>-</button>{item.quantity}<button onClick={()=>{cartChange(item.id,1)}}>+</button></>}{loading && <div className={style.container__column__loading} ><img src={loadingImage} /></div>}</div>
-            }));
-            setProductTotal(await altCart.map((item,index) => {
-                return <div key={index} className={style.container__column__name}>${item.price * item.quantity}<button onClick={()=>{removeItem(item.id)}}>remove</button></div>
-            }));
+            0));
             setQuant(await altCart.reduce((a,b) =>
             a + parseInt(b.quantity), 0 )); 
+            if (altCart.length > 1) {
+                setImage(await altCart.map((item,index) => {
+                    return <NavLink to={`/product/${item.id}`}><div key={item.id} className={style.container__column__name}><img src={item.image} alt="" />{item.name}</div></NavLink>
+                }));
+                setPrice(await altCart.map((item, index) => {
+                    return <div key={index} className={style.container__column__name}>${item.price}</div>
+                }));
+                setQuantity(await altCart.map((item, index) => {
+                    console.log(item.id);
+                    return <div key={index} className={style.container__column__name__qty}>{!loading && <><button onClick={()=>{cartChange(item.id, -1, item.quantity)}}>-</button>{item.quantity}<button onClick={()=>{cartChange(item.id,1)}}>+</button></>}{loading && <div className={style.container__column__loading} ><img src={loadingImage} /></div>}</div>
+                }));
+                setProductTotal(await altCart.map((item,index) => {
+                    return <div key={index} className={style.container__column__name}>${item.price * item.quantity}<button onClick={()=>{removeItem(item.id)}}>remove</button></div>
+                }));
+                
+            } else if (altCart.length == 1){
+                setPrice(<div key={altCart[0].id} className={style.container__column__name}>${altCart[0].price}</div>);
+                setQuantity(<div key={altCart[0].id} className={style.container__column__name__qty}>{!loading && <><button onClick={()=>{cartChange(altCart[0].id, -1, altCart[0].quantity)}}>-</button>{altCart[0].quantity}<button onClick={()=>{cartChange(altCart[0].id,1)}}>+</button></>}{loading && <div className={style.container__column__loading} ><img src={loadingImage} /></div>}</div>);
+                setProductTotal(<div key={altCart[0].id} className={style.container__column__name}>${altCart[0].price * altCart[0].quantity}<button onClick={()=>{removeItem(altCart[0].id)}}>remove</button></div>);
+                setImage(<NavLink to={`/product/${altCart[0].id}`}><div key={altCart[0].id} className={style.container__column__name}><img src={altCart[0].image} alt="" />{altCart[0].name}</div></NavLink>);
+            } else {
+                setPrice(null);
+                setQuantity(null);
+                setProductTotal(null);
+                setImage(null);
+            }
+           
         })();
 
   
-    },[cart, update, loading])
+    },[cart, update, loading]);
 
     useEffect(() => {
-            if (total < 300 && total != 0) {
-                console.log(total);
+        console.log (total);
+
+        (async () => {
+            const realTotal = await total;
+
+            if (realTotal < 300 && realTotal != 0) {
+                console.log(realTotal);
                 setShipping("$30")
                 setItems(true);
-                setGrandTotal(total+30);
-            } else if (total > 300){
+                setGrandTotal(realTotal+30);
+            } else if (realTotal >= 300){
                 setShipping("Free");
                 setItems(true);
-                setGrandTotal(total);
+                setGrandTotal(realTotal);
             }
-            else if (total == 0) {
+            else if (realTotal == 0) {
                 setItems(false);
-                setGrandTotal(total);
+                setGrandTotal(realTotal);
             }
             console.log(items);
-    }, [total]);
+
+        })();
+         
+    }, [total,cart]);
 
     useEffect(() => {
         topFunction();
