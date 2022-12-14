@@ -5,6 +5,11 @@ import react from '@vitejs/plugin-react';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/EshopAPI/',
-  plugins: [react()],
+    base: '/EshopAPI/',
+    plugins: [react()],
+    tests: {
+        globals: true,
+        environments: 'jsdom',
+        setupFiles: './config/setupTests.js',
+    },
 });
